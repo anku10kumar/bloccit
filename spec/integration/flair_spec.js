@@ -137,7 +137,7 @@ describe("routes : flair", () => {
                         this.flair.id
                     }/update`,
                     form: {
-                        name: "I like it",
+                        name: "I know you",
                         color: "green"
                     }
                 },
@@ -152,7 +152,7 @@ describe("routes : flair", () => {
             const options = {
                 url: `${base}/${this.post.id}/flair/${this.flair.id}/update`,
                 form: {
-                    name: "I like it",
+                    name: "I see it",
                     color: "green"
                 }
             };

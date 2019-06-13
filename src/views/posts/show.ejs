@@ -11,8 +11,11 @@
        <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>/edit" class="btn btn-warning">Edit</a>
       <form style="display:initial" action="/topics/<%= post.topicId %>/posts/<%= post.id %>/destroy" method="post">
             <button type="submit" class="btn btn-danger">Delete</button>
+ <small class="text-muted" id="titleHelp">title must be 2 or more characters in length.</small>
           </form>
+
       <p><%= post.body %></p>
+       <small class="text-muted" id="bodyHelp">body must be 10 or more characters in length.</small>
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>
