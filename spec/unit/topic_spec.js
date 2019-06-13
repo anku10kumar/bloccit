@@ -5,23 +5,23 @@ const Topic = require("../../src/db/models").Topic;
 describe("Topic", () => {
 
   beforeEach((done) => {
-    //#1
+
     this.topic;
     this.post;
     sequelize.sync({force: true}).then((res) => {
 
-      //#2
+
       Topic.create({
         title: "test title-1",
         description: "test description-1"
       })
       .then((topic) => {
         this.topic = topic;
-        //#3
+
         post.create({
           title: "post test title",
           body: "post test body",
-          //#4
+
           topicId: this.topic.id
         })
         .then((post) => {
@@ -40,7 +40,7 @@ describe("Topic", () => {
   describe("#create()", () => {
 
     it("should create a topic with a title and a description", (done) => {
-      //#1
+
       Topic.create({
         title: "Test title",
         description: "Test description"
@@ -48,7 +48,7 @@ describe("Topic", () => {
       })
       .then((topic) => {
 
-        //#2
+
         expect(topic.title).toBe("Test title");
         expect(topic.description).toBe("Test description");
         done();
