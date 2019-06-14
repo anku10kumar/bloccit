@@ -1,53 +1,58 @@
+
 const Flair = require("./models").Flair;
 const Post = require("./models").Post;
 
+
 module.exports = {
-  addPost(newPost, callback){
-       return Post.create(newPost)
-       .then((post) => {
-         callback(null, post);
-       })
-       .catch((err) => {
-         callback(err);
-       })
-     },
 
-     getPost(id, callback){
-    return Post.findById(id)
-    .then((post) => {
-      callback(null, post);
+  addFlair(newFlair, callback) {
+    return Flair.create(newFlair)
+    .then((flair) => {
+      callback(null, flair);
     })
     .catch((err) => {
       callback(err);
     })
   },
-  deletePost(id, callback){
-    return Post.destroy({
-      where: { id }
-    })
-    .then((deletedRecordsCount) => {
-      callback(null, deletedRecordsCount);
+
+  getFlair(id, callback) {
+    return Flair.findById(id)
+    .then((flair) => {
+      callback(null, flair);
     })
     .catch((err) => {
       callback(err);
     })
   },
-  updatePost(id, updatedPost, callback){
-   return Post.findById(id)
-   .then((post) => {
-     if(!post){
-       return callback("Post not found");
-     }
 
-     post.update(updatedPost, {
-       fields: Object.keys(updatedPost)
+  deleteFlair(id, callback){
+     return Flair.destroy({
+       where: { id }
      })
-     .then(() => {
-       callback(null, post);
+     .then((deletedRecordsCount) => {
+       callback(null, deletedRecordsCount);
      })
      .catch((err) => {
        callback(err);
+     })
+   },
+
+   updateFlair(id, updatedFlair, callback){
+     return Flair.findById(id)
+     .then((flair) => {
+       if(!flair){
+         return callback("Flair not found");
+       }
+
+       flair.update(updatedFlair, {
+         fields: Object.keys(updatedFlair)
+       })
+       .then(() => {
+         callback(null, flair);
+       })
+       .catch((err) => {
+         callback(err);
+       });
      });
-   });
- }
+   }
 }
