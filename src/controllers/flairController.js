@@ -48,7 +48,7 @@ module.exports = {
       if (err || flair == null) {
         res.redirect(404, "/");
       } else {
-        res.render("flair/edit", {flair, topicId: req.params.topicId});
+        res.render("flairs/edit", {flair, topicId: req.params.topicId});
       }
     });
   },
