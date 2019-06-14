@@ -18,7 +18,7 @@ describe("Topic", () => {
       .then((topic) => {
         this.topic = topic;
         //#3
-        post.create({
+        Post.create({
           title: "post test title",
           body: "post test body",
           //#4
@@ -63,14 +63,12 @@ describe("Topic", () => {
   });
 
   describe("#getPosts()", () => {
-        it("should return the associated posts", done => {
-            this.topic.getPosts().then(associatedposts => {
-                expect(associatedposts[0].title).toBe("Post test");
+        it("should return the associated posts", (done) => {
+            this.topic.getPosts()
+            .then(associatedPosts) => {
+                expect(associatedPosts[0].title).toBe("post test title");
                 done();
             });
         });
     });
-});
-
-
 });
