@@ -9,23 +9,21 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     }
-  },
-  {}
-);
-Topic.associate = function(models) {
-  Topic.hasMany(models.Banner, {
-    foreignKey: "topicId",
-    as: "banners",
-  });
+  }, {});
+  Topic.associate = function(models) {
+    Topic.hasMany(models.Banner, {
+      foreignKey: "topicId",
+      as: "banners"
+    });
 
-  Topic.hasMany(models.Rule, {
-    foreignKey: "topicId",
-    as: "rules",
-  });
-  Topic.hasMany(models.Post, {
-    foreignKey: "topicId",
-    as: "posts"
-  });
-};
-return Topic;
+    Topic.hasMany(models.Rule, {
+      foreignKey: "topicId",
+      as: "rules"
+    });
+    Topic.hasMany(models.Post, {
+      foreignKey: "topicId",
+      as: "posts"
+    });
+  };
+  return Topic;
 };

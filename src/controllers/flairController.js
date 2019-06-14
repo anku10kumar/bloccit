@@ -1,4 +1,4 @@
-const flairQueries = require("../db/queries.flair.js");
+const flairQueries = require("../db/queries.flairs.js");
 
 module.exports = {
   new(req, res, next) {
