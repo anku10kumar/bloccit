@@ -117,7 +117,7 @@ describe("routes : topics", () => {
     it("should render a view with the selected topic", (done) => {
       request.get(`${base}${this.topic.id}`, (err, res, body) => {
         expect(err).toBeNull();
-        expect(body).toContain("JS Frameworks");
+        expect(topic.title).toContain("JS Frameworks");
 
         done();
       });
@@ -159,8 +159,8 @@ describe("routes : topics", () => {
     it("should render a view with an edit topic form", (done) => {
       request.get(`${base}${this.topic.id}/edit`, (err, res, body) => {
         expect(err).toBeNull();
-        expect(body).toContain("Edit Topic");
-        expect(body).toContain("JS Frameworks");
+        expect(topic.title).toContain("Edit Topic");
+        expect(topic.description).toContain("JS Frameworks");
         done();
       });
     });
@@ -178,6 +178,7 @@ describe("routes : topics", () => {
         }
       };
       //#1
+
       request.post(options,
         (err, res, body) => {
 
