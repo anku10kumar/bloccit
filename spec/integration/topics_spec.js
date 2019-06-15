@@ -4,8 +4,7 @@ const base = "http://localhost:3000/topics/";
 
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
-const Post = require("../../src/db/models").Post;
-const Flair = require("../../src/db/models").Flair;
+
 
 describe("routes : topics", () => {
 
@@ -22,7 +21,6 @@ describe("routes : topics", () => {
         done();
       })
       .catch((err) => {
-        console.log(err);
         done();
       });
 
@@ -87,26 +85,25 @@ describe("routes : topics", () => {
       );
     });
 
-    it("should not create a new post that fails validations", (done) => {
+    it("should not create a new topic that fails validations", (done) => {
       const options = {
         url: `${base}/create`,
         form: {
-          title: "a",
-          description: "b"
+          title: "d",
+          description: "f"
         }
       };
 
       request.post(options,
-        (err, res, body) => {
+        (res, body, err) => {
 
           //#2
-          Topic.findOne({where: {title: "a"}})
+          Topic.findOne({where: {title: "d"}})
           .then((topic) => {
             expect(topic).toBeNull();
             done();
           })
           .catch((err) => {
-            console.log(err);
             done();
           });
         }

@@ -5,7 +5,7 @@ const base = "http://localhost:3000/topics";
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
-const Flair = require("../../src/db/models").Flair;
+
 
 describe("routes : posts", () => {
 
@@ -24,7 +24,7 @@ describe("routes : posts", () => {
         this.topic = topic;
 
         Post.create({
-          title: "Snowball Fighting",
+          title: "Snowman Building Competition",
           body: "So much snow!",
           topicId: this.topic.id
         })
@@ -117,7 +117,7 @@ describe("routes : posts", () => {
     it("should render a view with the selected post", (done) => {
       request.get(`${base}/${this.topic.id}/posts/${this.post.id}`, (err, res, body) => {
         expect(err).toBeNull();
-        expect(body).toContain("Snowball Fighting");
+        expect(body).toContain("Snowman Building Competition");
         done();
       });
     });
@@ -152,7 +152,7 @@ describe("routes : posts", () => {
       request.get(`${base}/${this.topic.id}/posts/${this.post.id}/edit`, (err, res, body) => {
         expect(err).toBeNull();
         expect(body).toContain("Edit Post");
-        expect(body).toContain("Snowball Fighting");
+        expect(body).toContain("Snowman Building Competition");
         done();
       });
     });

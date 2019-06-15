@@ -21,14 +21,14 @@ module.exports = {
      });
    },
    show(req, res, next){
-    postQueries.getPost(req.params), (err, post) => {
+    postQueries.getPost(req.params.id, (err, post) => {
       if(err || post == null){
         res.redirect(404, "/");
       } else {
         console.log(post);
       res.render("posts/show", {post});
       }
-    }
+    });
 
   },
 
