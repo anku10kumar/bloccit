@@ -32,7 +32,7 @@ module.exports = {
            model: "Topics",   // table name
            key: "id",         // attribute to use
            as: "topicId"      // reference as topicId
-         },
+         }
        }
     });
   },

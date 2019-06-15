@@ -62,13 +62,14 @@ describe("Topic", () => {
 
   });
 
-  describe("#getPosts()", () => {
-        it("should return the associated posts", (done) => {
-            this.topic.getPosts()
-            .then(associatedPosts) => {
-                expect(associatedPosts[0].title).toBe("post test title");
-                done();
-            });
-        });
+  describe("#getPosts", () => {
+    it("should return the associated posts", (done) => {
+      this.topic.getPosts()
+      .then((associatedPosts) => {
+        expect(associatedPosts[0].title).toBe("post test title");
+        done();
+      });
     });
+  });
+
 });
