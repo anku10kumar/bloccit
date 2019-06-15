@@ -117,7 +117,7 @@ describe("routes : posts", () => {
     it("should render a view with the selected post", (done) => {
       request.get(`${base}/${this.topic.id}/posts/${this.post.id}`, (err, res, body) => {
         expect(err).toBeNull();
-        expect(body).toContain("Snowman Building Competition");
+        expect(body).toContain("So much snow!");
         done();
       });
     });
@@ -152,7 +152,7 @@ describe("routes : posts", () => {
       request.get(`${base}/${this.topic.id}/posts/${this.post.id}/edit`, (err, res, body) => {
         expect(err).toBeNull();
         expect(body).toContain("Edit Post");
-        expect(body).toContain("Snowman Building Competition");
+        expect(body).toContain("Snowball Fighting");
         done();
       });
     });
@@ -192,6 +192,7 @@ describe("routes : posts", () => {
           })
           .then((post) => {
             expect(post.title).toBe("Snowman Building Competition");
+            expect(post.body).toBe("I really enjoy the funny hats on them");
             done();
           });
         });

@@ -118,6 +118,7 @@ describe("routes : topics", () => {
       request.get(`${base}${this.topic.id}`, (err, res, body) => {
         expect(err).toBeNull();
         expect(body).toContain("JS Frameworks");
+
         done();
       });
     });
@@ -187,6 +188,7 @@ describe("routes : topics", () => {
           })
           .then((topic) => {
             expect(topic.title).toBe("JavaScript Frameworks");
+            expect(topic.description).toBe("There are a lot of them")
             done();
           });
         });
