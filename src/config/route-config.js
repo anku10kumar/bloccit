@@ -4,11 +4,12 @@ module.exports = {
     const topicRoutes = require("../routes/topics");
     const postRoutes = require("../routes/posts");
     const flairRoutes = require("../routes/flair");
+const userRoutes = require("../routes/users");
 
     app.use(staticRoutes);
     app.use(topicRoutes);
     app.use(postRoutes);
-
+app.use(userRoutes);
     app.use(flairRoutes);
   }
 }

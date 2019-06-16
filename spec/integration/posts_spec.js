@@ -6,6 +6,7 @@ const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
 
+
 describe("routes : posts", () => {
 
   beforeEach((done) => {
@@ -23,7 +24,7 @@ describe("routes : posts", () => {
         this.topic = topic;
 
         Post.create({
-          title: "Snowball Fighting",
+          title: "Snowman Building Competition",
           body: "So much snow!",
           topicId: this.topic.id
         })
@@ -116,7 +117,7 @@ describe("routes : posts", () => {
     it("should render a view with the selected post", (done) => {
       request.get(`${base}/${this.topic.id}/posts/${this.post.id}`, (err, res, body) => {
         expect(err).toBeNull();
-        expect(body).toContain("Snowball Fighting");
+        expect(body).toContain("Post your Winter Games stories.");
         done();
       });
     });
@@ -191,6 +192,7 @@ describe("routes : posts", () => {
           })
           .then((post) => {
             expect(post.title).toBe("Snowman Building Competition");
+            expect(post.body).toBe("I really enjoy the funny hats on them");
             done();
           });
         });
