@@ -17,6 +17,20 @@ module.exports = {
     })
   },
 
+  addTopic(newTopic, callback){
+     return Topic.create({
+       title: newTopic.title,
+       description: newTopic.description
+     })
+     .then((topic) => {
+       callback(null, topic);
+     })
+     .catch((err) => {
+       callback(err);
+     })
+   },
+
+
   getTopic(id, callback){
 
      return Topic.findById(id, {
@@ -39,18 +53,7 @@ module.exports = {
      })
    },
 
-  addTopic(newTopic, callback){
-     return Topic.create({
-       title: newTopic.title,
-       description: newTopic.description
-     })
-     .then((topic) => {
-       callback(null, topic);
-     })
-     .catch((err) => {
-       callback(err);
-     })
-   },
+
 
    deleteTopic(id, callback){
         return Topic.destroy({

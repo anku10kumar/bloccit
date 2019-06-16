@@ -30,17 +30,6 @@ describe("routes : topics", () => {
 
   describe("GET /topics", () => {
 
-    it("should return a status code 200 and all topics", (done) => {
-
-      request.get(base, (err, res, body) => {
-        expect(res.statusCode).toBe(200);
-        expect(err).toBeNull();
-        expect(body).toContain("Topics");
-        expect(body).toContain("JS Frameworks");
-        done();
-      });
-    });
-  });
 
   describe("GET /topics/new", () => {
 
@@ -53,6 +42,18 @@ describe("routes : topics", () => {
     });
 
   });
+
+  it("should return a status code 200 and all topics", (done) => {
+
+    request.get(base, (err, res, body) => {
+      expect(res.statusCode).toBe(200);
+      expect(err).toBeNull();
+      expect(body).toContain("Topics");
+      expect(body).toContain("JS Frameworks");
+      done();
+    });
+  });
+});
 
   describe("POST /topics/create", () => {
     const options = {
@@ -89,8 +90,8 @@ describe("routes : topics", () => {
       const options = {
         url: `${base}/create`,
         form: {
-          title: "d",
-          description: "f"
+          title: "a",
+          description: "b"
         }
       };
 
@@ -98,7 +99,7 @@ describe("routes : topics", () => {
         (res, body, err) => {
 
           //#2
-          Topic.findOne({where: {title: "d"}})
+          Topic.findOne({where: {title: "a"}})
           .then((topic) => {
             expect(topic).toBeNull();
             done();
@@ -118,7 +119,7 @@ describe("routes : topics", () => {
 
       request.get(`${base}${this.topic.id}`, (err, res, body) => {
         expect(err).toBeNull();
-        expect(title).toContain("Topics");
+        expect(body).toContain("JS Frameworks");
 
         done();
       });
@@ -160,8 +161,8 @@ describe("routes : topics", () => {
     it("should render a view with an edit topic form", (done) => {
       request.get(`${base}${this.topic.id}/edit`, (err, res, body) => {
         expect(err).toBeNull();
-        expect(title).toContain("Topics");
-        expect(description).toContain("Topics");
+        expect(body).toContain("Edit Topic");
+        expect(body).toContain("JS Frameworks");
         done();
       });
     });
@@ -190,7 +191,7 @@ describe("routes : topics", () => {
           })
           .then((topic) => {
             expect(topic.title).toBe("JavaScript Frameworks");
-            expect(topic.description).toBe("There are a lot of them")
+
             done();
           });
         });
