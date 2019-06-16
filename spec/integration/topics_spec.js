@@ -117,7 +117,7 @@ describe("routes : topics", () => {
     it("should render a view with the selected topic", (done) => {
       request.get(`${base}${this.topic.id}`, (err, res, body) => {
         expect(err).toBeNull();
-        expect(topic.title).toContain("JS Frameworks");
+        expect(title).toContain("Topics");
 
         done();
       });
@@ -159,8 +159,8 @@ describe("routes : topics", () => {
     it("should render a view with an edit topic form", (done) => {
       request.get(`${base}${this.topic.id}/edit`, (err, res, body) => {
         expect(err).toBeNull();
-        expect(topic.title).toContain("Edit Topic");
-        expect(topic.description).toContain("JS Frameworks");
+        expect(title).toContain("Topics");
+        expect(description).toContain("Topics");
         done();
       });
     });
