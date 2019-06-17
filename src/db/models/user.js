@@ -5,7 +5,9 @@ module.exports = (sequelize, DataTypes) => {
   type: DataTypes.STRING,
   allowNull: false,
   validate: {
-    isEmail: { msg: "must be a valid email" }
+    isEmail: {
+      msg: "must be a valid email"
+    }
   }
 },
 password: {
@@ -15,6 +17,10 @@ allowNull: false
   }, {});
   User.associate = function(models) {
     // associations can be defined here
+    User.hasMany(models.Post, {
+       foreignKey: "userId",
+       as: "posts"
+     });
   };
   return User;
 };
