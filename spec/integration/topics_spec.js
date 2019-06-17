@@ -21,6 +21,7 @@ describe("routes : topics", () => {
         done();
       })
       .catch((err) => {
+        console.log(err);
         done();
       });
 
@@ -29,19 +30,6 @@ describe("routes : topics", () => {
   });
 
   describe("GET /topics", () => {
-
-
-  describe("GET /topics/new", () => {
-
-    it("should render a new topic form", (done) => {
-      request.get(`${base}new`, (err, res, body) => {
-        expect(err).toBeNull();
-        expect(body).toContain("New Topic");
-        done();
-      });
-    });
-
-  });
 
   it("should return a status code 200 and all topics", (done) => {
 
@@ -53,6 +41,18 @@ describe("routes : topics", () => {
       done();
     });
   });
+});
+
+describe("GET /topics/new", () => {
+
+  it("should render a new topic form", (done) => {
+    request.get(`${base}new`, (err, res, body) => {
+      expect(err).toBeNull();
+      expect(body).toContain("New Topic");
+      done();
+    });
+  });
+
 });
 
   describe("POST /topics/create", () => {
@@ -86,6 +86,7 @@ describe("routes : topics", () => {
       );
     });
 
+
     it("should not create a new topic that fails validations", (done) => {
       const options = {
         url: `${base}/create`,
@@ -96,7 +97,7 @@ describe("routes : topics", () => {
       };
 
       request.post(options,
-        (res, body, err) => {
+        (err, res, body) => {
 
           //#2
           Topic.findOne({where: {title: "a"}})
@@ -120,8 +121,7 @@ describe("routes : topics", () => {
       request.get(`${base}${this.topic.id}`, (err, res, body) => {
         expect(err).toBeNull();
         expect(body).toContain("JS Frameworks");
-
-        done();
+              done();
       });
     });
 

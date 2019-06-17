@@ -17,20 +17,6 @@ module.exports = {
     })
   },
 
-  addTopic(newTopic, callback){
-     return Topic.create({
-       title: newTopic.title,
-       description: newTopic.description
-     })
-     .then((topic) => {
-       callback(null, topic);
-     })
-     .catch((err) => {
-       callback(err);
-     })
-   },
-
-
   getTopic(id, callback){
 
      return Topic.findById(id, {
@@ -53,19 +39,19 @@ module.exports = {
      })
    },
 
+   addTopic(newTopic, callback){
+      return Topic.create({
+        title: newTopic.title,
+        description: newTopic.description
+      })
+      .then((topic) => {
+        callback(null, topic);
+      })
+      .catch((err) => {
+        callback(err);
+      })
+    },
 
-
-   deleteTopic(id, callback){
-        return Topic.destroy({
-          where: {id}
-        })
-        .then((topic) => {
-          callback(null, topic);
-        })
-        .catch((err) => {
-          callback(err);
-        })
-      },
 
       updateTopic(id, updatedTopic, callback){
     return Topic.findById(id)
@@ -85,6 +71,18 @@ module.exports = {
         callback(err);
       });
     });
-  }
+  },
+
+  deleteTopic(id, callback){
+       return Topic.destroy({
+         where: {id}
+       })
+       .then((topic) => {
+         callback(null, topic);
+       })
+       .catch((err) => {
+         callback(err);
+       })
+     }
 
 }
