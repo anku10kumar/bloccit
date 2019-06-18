@@ -83,7 +83,7 @@ module.exports = {
            callback("Forbidden");
          }
        });
-     }, 
+     },
 
   deleteTopic(req, callback){
 
