@@ -40,7 +40,7 @@ module.exports = {
      } else {
        return next();
      }
-   }, 
+   },
 
    validateTopics(req, res, next) {
 
@@ -64,4 +64,4 @@ module.exports = {
       return next();
     }
   }
-};
+}

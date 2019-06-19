@@ -27,5 +27,8 @@ app.use(session({
      res.locals.currentUser = req.user;
      next();
    })
+
+   app.use(express.static(path.join(__dirname, "..", "assets")));
+        app.use(expressValidator());
   }
 };
