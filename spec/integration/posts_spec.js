@@ -105,7 +105,7 @@ describe("routes : posts", () => {
             done();
           })
           .catch((err) => {
-            console.log(err);
+            console.log(err, 'posts error');
             done();
           });
         }
@@ -130,7 +130,7 @@ describe("routes : posts", () => {
               done();
           })
           .catch((err) => {
-            console.log(err);
+            console.log(err, 'posts error');
             done();
           });
         }
@@ -279,7 +279,7 @@ describe("routes : posts", () => {
                done();
              })
              .catch((err) => {
-               console.log(err);
+               console.log(err, 'posts error');
                done();
              });
            }
@@ -304,7 +304,7 @@ describe("routes : posts", () => {
                  done();
              })
              .catch((err) => {
-               console.log(err);
+               console.log(err, 'posts error');
                done();
              });
            }
@@ -436,7 +436,7 @@ describe("routes : posts", () => {
                     done();
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.log(err, 'posts error');
                     done();
               })
           });
