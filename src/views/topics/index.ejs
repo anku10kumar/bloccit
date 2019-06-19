@@ -6,16 +6,17 @@
   <body>
     <main class="container">
       <% include ../static/partials/navbar.ejs %>
-
+      <% include ../static/partials/messages.ejs %>
 
       <h1>Topics</h1>
 
-<a href="/topics/new" class="btn btn-success">New Topic</a>
+      <% if(currentUser && currentUser.isAdmin()) { %>
+        <a href="/topics/new" class="btn btn-success">New Topic</a>
+      <% } %>
 
       <ul class="list-group">
-<!-- #1 -->
+
         <% topics.forEach((topic) => { %>
-<!-- #2 -->
           <li class="list-group-item">
             <a href="/topics/<%= topic.id %>"> <%= topic.title %> </a>
           </li>
@@ -23,5 +24,6 @@
       </ul>
 
     </main>
+    <% include ../static/partials/baseScripts.ejs %>
   </body>
 </html>

@@ -11,7 +11,7 @@ module.exports = {
            } else {
                res.render("topics/index", {topics});
            }
-       })
+       });
    },
    new(req, res, next){
        const authorized = new Authorizer(req.user).new();
