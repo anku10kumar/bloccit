@@ -132,7 +132,7 @@ describe("routes : topics", () => {
               })
 
             });
-          });
+          })
 
         });
       });
@@ -276,7 +276,7 @@ describe("routes : topics", () => {
               })
 
             });
-          });
+          })
 
         });
       });
