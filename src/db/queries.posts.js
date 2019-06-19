@@ -2,6 +2,7 @@ const Post = require("./models").Post;
 const Topic = require("./models").Topic;
 const Authorizer = require("../policies/post");
 
+
 module.exports = {
   addPost(newPost, callback) {
     return Post.create(newPost)
@@ -26,14 +27,14 @@ module.exports = {
 
   deletePost(req, callback) {
     return Post.findById(req.params.id)
-    .then((deletedRecordsCount) => {
-      const authorized = new Authorizer(req.user, deletedRecordsCount).destroy();
+    .then((post) => {
+      const authorized = new Authorizer(req.user, post).destroy();
 
          if(authorized) {
    // #3
-           deletedRecordsCount.destroy()
+           post.destroy()
            .then((res) => {
-             callback(null, deletedRecordsCount);
+             callback(null, post);
            });
 
          } else {

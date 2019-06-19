@@ -54,7 +54,10 @@ module.exports = {
            } else {
                res.render("topics/show", {topic});
            }
+
+                  console.log(topic);
        });
+
    },
    destroy(req, res, next){
 
