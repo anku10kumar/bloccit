@@ -55,7 +55,7 @@ module.exports = {
                res.render("topics/show", {topic});
            }
 
-                  console.log(topic);
+        
        });
 
    },

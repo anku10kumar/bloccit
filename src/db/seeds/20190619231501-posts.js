@@ -11,7 +11,8 @@ for(let i = 1 ; i <= 10 ; i++){
     body: faker.hacker.phrase(),
     createdAt: new Date(),
     updatedAt: new Date(),
-    topicId: 1
+    topicId: 1,
+    userId: 1,
 });
 };
 
