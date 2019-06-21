@@ -16,7 +16,7 @@ module.exports = {
      },
 
      getPost(id, callback) {
-       return Post.findByPk(id, {
+       return Post.findById(id, {
      include: [
        {model: Comment, as: "comments", include: [
          {model: User }
@@ -44,7 +44,7 @@ module.exports = {
     })
   },
   updatePost(id, updatedPost, callback){
-   return Post.findByPk(id)
+   return Post.findById(id)
    .then((post) => {
      if(!post){
        return callback("Post not found");
