@@ -2,7 +2,7 @@ const request = require("request");
 const server = require("../../src/server");
 const base = "http://localhost:3000/topics/";
 const sequelize = require("../../src/db/models/index").sequelize;
-const Topic = require("../../src/db/models").Topics;
+const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
 const User = require("../../src/db/models").User;
 const Comment = require("../../src/db/models").Comment;
@@ -77,8 +77,7 @@ describe("routes : comments", () => {
 
     describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
       it("should not create a new comment", (done) => {
-        console.log(this.topic);
-        console.log(this.post);
+      
         const options = {
           url: `${base}${this.topic.id}/posts/${this.post.id}/comments/create`,
 

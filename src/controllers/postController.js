@@ -55,7 +55,7 @@ module.exports = {
        if(err) {
 
          res.redirect(500, `/topics/${req.params.topicId}/posts/${req.params.id}`)
-       } else {
+       } else { console.log('post', post);
           res.redirect(303, `/topics/${req.params.topicId}`);
        }
      });
@@ -74,7 +74,7 @@ module.exports = {
            res.render("posts/edit", {post});
          } else {
            req.flash("notice", "You are not authorized to do that.");
-           res.redirect(`/topics/${req.params.topicId}/posts/${req.params.id}`);
+           res.redirect( `/topics/${req.params.topicId}/posts/${req.params.id}`);
          }
        }
      });
