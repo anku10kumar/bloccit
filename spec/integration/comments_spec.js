@@ -77,12 +77,16 @@ describe("routes : comments", () => {
 
     describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
       it("should not create a new comment", (done) => {
+        console.log(this.topic);
+        console.log(this.post);
         const options = {
           url: `${base}${this.topic.id}/posts/${this.post.id}/comments/create`,
+
           form: {
             body: "This comment is amazing!"
           }
         };
+
         request.post(options,
           (err, res, body) => {
             Comment.findOne({where: {body: "This comment is amazing!"}})
