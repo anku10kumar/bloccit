@@ -1,14 +1,18 @@
-// #1: We import our dependencies
+const request = require("request");
+const server = require("../../src/server");
+const base = "http://localhost:3000/topics/";
+
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
 const User = require("../../src/db/models").User;
 const Comment = require("../../src/db/models").Comment;
 
-describe("Comment", () => {
+describe("routes : comments", () => {
 
-// #2: Before each test, we scope a user, topic, post, and comment to the test context.
   beforeEach((done) => {
+
+// #2
     this.user;
     this.topic;
     this.post;
@@ -16,13 +20,13 @@ describe("Comment", () => {
 
     sequelize.sync({force: true}).then((res) => {
 
-// #3: We create test data we can use during test execution
+// #3
       User.create({
         email: "starman@tesla.com",
         password: "Trekkie4lyfe"
       })
       .then((user) => {
-        this.user = user;
+        this.user = user;  // store user
 
         Topic.create({
           title: "Expeditions to Alpha Centauri",
@@ -33,22 +37,22 @@ describe("Comment", () => {
             userId: this.user.id
           }]
         }, {
-          include: {
+          include: {                        //nested creation of posts
             model: Post,
             as: "posts"
           }
         })
         .then((topic) => {
-          this.topic = topic;
-          this.post = this.topic.posts[0];
+          this.topic = topic;                 // store topic
+          this.post = this.topic.posts[0];  // store post
 
           Comment.create({
             body: "ay caramba!!!!!",
             userId: this.user.id,
             postId: this.post.id
           })
-          .then((comment) => {
-            this.comment = comment;
+          .then((coment) => {
+            this.comment = coment;             // store comment
             done();
           })
           .catch((err) => {
@@ -64,133 +68,146 @@ describe("Comment", () => {
     });
   });
 
-// #4: We start a test suite for the `create` action
-  describe("#create()", () => {
+// Context for Guest users
 
-    it("should create a comment object with a body, assigned post and user", (done) => {
-      Comment.create({                // create a comment
-        body: "The geological kind.",
-        postId: this.post.id,
-        userId: this.user.id
-      })
-      .then((comment) => {            // confirm it was created with the values passed
-        expect(comment.body).toBe("The geological kind.");
-        expect(comment.postId).toBe(this.post.id);
-        expect(comment.userId).toBe(this.user.id)
-        done();
 
-      })
-      .catch((err) => {
-        console.log(err);
-        done();
+  beforeEach((done) => {    // before each suite in this context
+       request.get({           // mock authentication
+         url: "http://localhost:3000/auth/fake",
+         form: {
+           userId: 0 // flag to indicate mock auth to destroy any session
+         }
+       },
+         (err, res, body) => {
+           done();
+         }
+       );
+     });
+
+     describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
+
+      it("should not create a new comment", (done) => {
+        const options = {
+          url: `${base}${this.topic.id}/posts/${this.post.id}/comments/create`,
+          form: {
+            body: "This comment is amazing!"
+          }
+        };
+        request.post(options,
+          (err, res, body) => {
+// #4
+            Comment.findOne({where: {body: "This comment is amazing!"}})
+            .then((comment) => {
+              expect(comment).toBeNull();   // ensure no comment was created
+              done();
+            })
+            .catch((err) => {
+              console.log(err);
+              done();
+            });
+          }
+        );
       });
     });
 
+    describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
 
-// #5: We test that comments with invalid attributes are not created
-    it("should not create a comment with missing body, assigned post or user", (done) => {
-      Comment.create({
-        body: "Are the inertial dampers still engaged?"
-      })
-      .then((comment) => {
+       it("should not delete the comment with the associated ID", (done) => {
+         Comment.all()
+         .then((comments) => {
+           const commentCountBeforeDelete = comments.length;
 
-        // the code in this block will not be evaluated since the validation error
-        // will skip it. Instead, we'll catch the error in the catch block below
-        // and set the expectations there
+           expect(commentCountBeforeDelete).toBe(1);
 
-        done();
+           request.post(
+             `${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+             (err, res, body) => {
+             Comment.all()
+             .then((comments) => {
+               expect(err).toBeNull();
+               expect(comments.length).toBe(commentCountBeforeDelete);
+               done();
+             })
 
-      })
-      .catch((err) => {
+           });
+         })
+       });
+     });
 
-        expect(err.message).toContain("Comment.userId cannot be null");
-        expect(err.message).toContain("Comment.postId cannot be null");
-        done();
+     // Context for Member users
 
-      })
-    });
+     describe("signed in user performing CRUD actions for Comment", () => {
 
-  });
+     beforeEach((done) => {    // before each suite in this context
+       request.get({           // mock authentication
+         url: "http://localhost:3000/auth/fake",
+         form: {
+           role: "member",     // mock authenticate as member user
+           userId: this.user.id
+         }
+       },
+         (err, res, body) => {
+           done();
+         }
+       );
+     });
 
-// #6: We test the `setUser` method which assigns a User object to the comment it was called on
-  describe("#setUser()", () => {
+     describe("POST /topics/:topicId/posts/:postId/comments/create", () => {
 
-    it("should associate a comment and a user together", (done) => {
-
-      User.create({               // create an unassociated user
-        email: "bob@example.com",
-        password: "password"
-      })
-      .then((newUser) => {        // pass the user down
-
-        expect(this.comment.userId).toBe(this.user.id); // confirm the comment belongs to another user
-
-        this.comment.setUser(newUser)                   // then reassign it
-        .then((comment) => {
-
-          expect(comment.userId).toBe(newUser.id);      // confirm the values persisted
-          done();
-
+        it("should create a new comment and redirect", (done) => {
+          const options = {
+            url: `${base}${this.topic.id}/posts/${this.post.id}/comments/create`,
+            form: {
+              body: "This comment is amazing!"
+            }
+          };
+          request.post(options,
+            (err, res, body) => {
+              Comment.findOne({where: {body: "This comment is amazing!"}})
+              .then((comment) => {
+                expect(comment).not.toBeNull();
+                expect(comment.body).toBe("This comment is amazing!");
+                expect(comment.id).not.toBeNull();
+                done();
+              })
+              .catch((err) => {
+                console.log(err);
+                done();
+              });
+            }
+          );
         });
-      })
-    });
-
-  });
-
-// #7: We test the `getUser` method which should return the User associated with the comment called on
-  describe("#getUser()", () => {
-
-    it("should return the associated user", (done) => {
-
-      this.comment.getUser()
-      .then((associatedUser) => {
-        expect(associatedUser.email).toBe("starman@tesla.com");
-        done();
       });
 
-    });
+      describe("POST /topics/:topicId/posts/:postId/comments/:id/destroy", () => {
 
-  });
+       it("should delete the comment with the associated ID", (done) => {
+         Comment.all()
+         .then((comments) => {
+           let commentCountBeforeDelete = comments.length;
 
-// #8: We test `setPost` which should associate the Post passed as argument to the comment called on
-  describe("#setPost()", () => {
+           expect(commentCountBeforeDelete).toBe(1);
 
-    it("should associate a post and a comment together", (done) => {
+           request.post(
+            `${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+             (err, res, body) => {
 
-      Post.create({       // create post
-        title: "Dress code on Proxima b",
-        body: "Spacesuit, space helmet, space boots, and space gloves",
-        topicId: this.topic.id,
-        userId: this.user.id
-      })
-      .then((newPost) => {
+             expect(res.statusCode).toBe(302);
+             Comment.all()
+             .then((comments) => {
 
-        expect(this.comment.postId).toBe(this.post.id); // confirm comment is associated to a different post
+               expect(err).toBeNull();
+               expect(comments.length).toBe(commentCountBeforeDelete - 1);
+               done();
+             });
 
-        this.comment.setPost(newPost)                   // associate new post to comment
-        .then((comment) => {
+           });
+         });
 
-          expect(comment.postId).toBe(newPost.id);      // confirm association took place
-          done();
+       });
 
-        });
-      })
-    });
+     });
 
-  });
+   }); //end context for signed in user
 
-// #9: We test `getPost` which should return the Post associated with the comment called on
-  describe("#getPost()", () => {
-
-    it("should return the associated post", (done) => {
-
-      this.comment.getPost()
-      .then((associatedPost) => {
-        expect(associatedPost.title).toBe("My first visit to Proxima Centauri b");
-        done();
-      });
-
-    });
-
-  });
 });
