@@ -34,6 +34,11 @@ allowNull: false
      foreignKey: "userId",
      as: "votes"
    });
+
+   User.hasMany(models.Favorite, {
+    foreignKey: "userId",
+    as: "favorites"
+  });
   };
 
   User.prototype.isAdmin = function() {
