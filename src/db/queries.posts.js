@@ -33,8 +33,7 @@ module.exports = {
      },
 
      deletePost(id, callback){
-       console.log('deleting posts');
-       console.log(id);
+
          return Post.destroy({
            where: { id }
          })
@@ -53,15 +52,22 @@ module.exports = {
        return callback("Post not found");
      }
 
-     post.update(updatedPost, {
-       fields: Object.keys(updatedPost)
-     })
-     .then(() => {
-       callback(null, post);
-     })
-     .catch((err) => {
-       callback(err);
-     });
-   });
+     const authorized = new Authorizer(req.user, post).update();
+
+      if(authorized) {
+      post.update(updatedPost, {
+        fields: Object.keys(updatedPost)
+      })
+      .then(() => {
+        callback(null, post);
+      })
+      .catch((err) => {
+        callback(err);
+      });
+     } else {
+      req.flash("notice", "You are not authorized to do that.");
+        callback("Forbidden");
+    }
+    });
  }
 }
