@@ -39,10 +39,28 @@ allowNull: false
     foreignKey: "userId",
     as: "favorites"
   });
-  };
+
+  User.addScope("lastFiveFor", (userId) => {
+
+ // #1
+     return {
+       include: [{
+         model: models.Post
+       }],
+       where: { userId: userId},
+       limit:5,
+       order: [["createdAt", "DESC"]]
+     }
+   });
+ };
+
 
   User.prototype.isAdmin = function() {
     return this.role === "admin";
+  };
+
+  User.prototype.isOwner = function(post) {
+    return this.id === post.userId;
   };
 
   return User;

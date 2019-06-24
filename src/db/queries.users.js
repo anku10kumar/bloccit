@@ -46,7 +46,13 @@ module.exports = {
           .then((comments) => {
  // #7
             result["comments"] = comments;
+
+            Favorite.scope({method: ["favoritePosts", id]}).all() //Store favorited posts
+           .then((favorites) => {
+             result["favorites"] = favorites;
+
             callback(null, result);
+          })
           })
           .catch((err) => {
             callback(err);
