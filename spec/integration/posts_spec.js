@@ -103,17 +103,22 @@ describe("routes : posts", () => {
   });
 
   describe("POST /topics/:topicId/posts/:id/destroy", () => {
-    it("should not delete the post with the associated ID", (done) => {
-      expect(this.post.id).toBe(1);
-        request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
-          Post.findById(1)
-          .then((post) => {
-            expect(post).not.toBeNull();
-            done();
-          })
+   it("should not delete the topic with the associated ID", (done) => {
+     Post.all()
+     .then((posts) => {
+       const postCountBeforeDelete = posts.length;
+       expect(postCountBeforeDelete).toBe(1);
+       request.post(`${base}${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
+         Post.all()
+         .then((posts) => {
+           // confirm that no posts were deleted
+           expect(posts.length).toBe(postCountBeforeDelete);
+           done();
+         })
        });
-     });
+     })
    });
+  });
 
   describe("GET /topics/:topicId/posts/:id/edit", () => {
     it("should not render a view with an edit post form", (done) => {
@@ -262,19 +267,25 @@ describe("routes : posts", () => {
   });
 
   describe("POST /topics/:topicId/posts/:id/update", () => {
-    it("should return a status code 302", (done) => {
-      request.post({
-        url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
-        form: {
-          title: "Snowman Building Competition",
-          body: "I love watching them melt slowly."
-        }
-      }, (err, res, body) => {
-        expect(res.statusCode).toBe(302);
-        done();
-      });
-    });
-  });
+         it("should update the post with the given values", (done) => {
+           request.post({
+             url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
+             form: {
+               title: "Snowball Fighting",
+               body: "It really hurst to get hit with a snowball.",
+             }
+           }, (err, res, body) => {
+             expect(err).toBeNull();
+             Post.findOne({
+               where: {id:1}
+             })
+             .then((post) => {
+               expect(post.title).toBe("Snowball Fighting");
+               done();
+             });
+           });
+         });
+       });
   }); //End Context of Member User
 
 });

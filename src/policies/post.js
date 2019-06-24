@@ -1,9 +1,9 @@
 const ApplicationPolicy = require("./application");
 
 module.exports = class PostPolicy extends ApplicationPolicy {
-    new() {
-        return this._isAdmin();
-    }
+  new() {
+       return (this._isAdmin() || this._isMember());
+   }
 
     create() {
         return this.new();

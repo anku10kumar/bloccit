@@ -2,12 +2,12 @@
 const faker = require("faker");
 
 //#2
-let topics = [];
+let posts = [];
 
 for(let i = 1 ; i <= 15 ; i++){
   posts.push({
     title: faker.hacker.noun(),
-    description: faker.hacker.phrase(),
+    body: faker.hacker.phrase(),
     createdAt: new Date(),
     updatedAt: new Date()
   });
