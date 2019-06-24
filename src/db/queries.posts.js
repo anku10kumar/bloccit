@@ -33,6 +33,8 @@ module.exports = {
      },
 
      deletePost(id, callback){
+       console.log('deleting posts');
+       console.log(id);
          return Post.destroy({
            where: { id }
          })
