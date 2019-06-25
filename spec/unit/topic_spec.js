@@ -1,4 +1,4 @@
-const sequelize = require("../../src/db/models/index").sequelize;
+/*const sequelize = require("../../src/db/models/index").sequelize;
 const Post = require("../../src/db/models").Post;
 const Topic = require("../../src/db/models").Topic;
 
@@ -63,3 +63,4 @@ describe("Topic", () => {
     });
   });
 });
+*/

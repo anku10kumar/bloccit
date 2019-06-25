@@ -1,4 +1,4 @@
-
+const Topic = require("./models").Topic;
 const Flair = require("./models").Flair;
 const Post = require("./models").Post;
 

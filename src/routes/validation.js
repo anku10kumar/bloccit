@@ -1,4 +1,4 @@
-module.exports = {
+/*module.exports = {
 
   validatePosts(req, res, next) {
 

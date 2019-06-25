@@ -5,7 +5,7 @@ module.exports = {
   });
 },
 
-  about(req, res, next){
+about(req, res, next){
     res.render("static/about")
   }
 }

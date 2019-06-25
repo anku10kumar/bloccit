@@ -32,7 +32,7 @@ module.exports = {
                     model: "Posts",
                     key: "id",
                     as: "postId"
-                }
+                },
             }
         });
     },

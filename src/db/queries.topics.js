@@ -25,7 +25,8 @@ module.exports = {
           as: "posts"
         }
       ]
-    }).then((topic) => {
+    })
+    .then((topic) => {
       callback(null, topic);
     }).catch((err) => {
       callback(err);
@@ -42,9 +43,10 @@ module.exports = {
   },
 
   deleteTopic(id, callback) {
-    return Topic.destroy({where: {
-        id
-      }}).then((topic) => {
+    return Topic.destroy({
+      where: {id}
+    })
+    .then((topic) => {
       callback(null, topic);
     }).catch((err) => {
       callback(err);

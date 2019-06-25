@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 module.exports = (sequelize, DataTypes) => {
   var Rule = sequelize.define('Rule',
   {
@@ -26,3 +26,4 @@ module.exports = (sequelize, DataTypes) => {
   };
   return Rule;
 };
+*/

@@ -1,4 +1,4 @@
-//#1
+
 const topicQueries = require("../db/queries.topics.js");
 
 module.exports = {
