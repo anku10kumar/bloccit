@@ -100,7 +100,7 @@ describe("routes : posts", () => {
     it("should delete the post with the associated ID", (done) => {
 
       //#1
-      expect(this.post.id).toBe(1);
+      expect(post.id).toBe(1);
 
       request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
 
@@ -156,7 +156,7 @@ describe("routes : posts", () => {
         (err, res, body) => {
 
           expect(err).toBeNull();
-
+          
           Post.findOne({
             where: {id: this.post.id}
           })

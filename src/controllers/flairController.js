@@ -15,6 +15,7 @@ module.exports = {
       flairQueries.addFlair(newFlair, (err, flair) => {
         if(err){
 
+<<<<<<< HEAD
           res.redirect(500, `/flairs/new`);
         } else {
           res.redirect(303, `/posts/${newFlair.postId}/flairs/${flair.id}`);
@@ -61,6 +62,51 @@ module.exports = {
             res.redirect(`/posts/${req.params.postId}/flairs/${req.params.id}`);
           }
         });
+=======
+    flairQueries.addFlair(newFlair, (err, flair) => {
+      if (err) {
+        console.log(err);
+        console.log(req.body.color);
+        res.redirect(500, "flairs/new");
+      } else {
+        res.redirect(303, `/topics/${req.params.topicId}/posts/${newFlair.postId}/flairs/${flair.id}`);
+      }
+    });
+  },
+  show(req, res, next) {
+    flairQueries.getFlair(req.params.id, (err, flair) => {
+      if (err || flair == null) {
+        res.redirect(404, "/");
+      } else {
+        res.render("flairs/show", {flair, topicId: req.params.topicId});
+      }
+    });
+  },
+  destroy(req, res, next) {
+    flairQueries.deleteFlair(req.params.id, (err, deletedRecordsCount) => {
+      if (err) {
+        res.redirect(500, `/topics/${req.params.topicId}/posts/${req.params.postId}/flairs/${req.params.id}`);
+      } else {
+        res.redirect(303, `/topics/${req.params.topicId}/posts/${req.params.postId}`);
+      }
+    });
+  },
+  edit(req, res, next) {
+    flairQueries.getFlair(req.params.id, (err, flair) => {
+      if (err || flair == null) {
+        res.redirect(404, "/");
+      } else {
+        res.render("flair/edit", {flair, topicId: req.params.topicId});
+      }
+    });
+  },
+  update(req, res, next) {
+    flairQueries.updateFlair(req.params.id, req.body, (err, flair) => {
+      if (err || flair == null) {
+        res.redirect(404, `/topics/${req.params.topicId}/posts/${req.params.postId}/flairs/${req.params.id}/edit`);
+      } else {
+        res.redirect(`/topics/${req.params.topicId}/posts/${req.params.postId}/flairs/${req.params.id}`);
+>>>>>>> parent of f9cffc8... wip
       }
 
 }

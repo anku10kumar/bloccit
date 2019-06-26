@@ -4,14 +4,18 @@
   "description": "A Reddit-like application for users to discuss and share content",
   "main": "src/server.js",
   "scripts": {
-    "test": "set NODE_ENV=test&& jasmine",
+    "test": "export NODE_ENV=test && npx jasmine",
     "start": "node src/server.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "faker": "^4.1.0",
+<<<<<<< HEAD
     "jasmine": "^3.4.0",
+=======
+    "jasmine": "^3.0.0",
+>>>>>>> parent of f9cffc8... wip
     "request": "^2.83.0"
   },
   "dependencies": {
