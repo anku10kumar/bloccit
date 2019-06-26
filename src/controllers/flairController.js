@@ -36,9 +36,9 @@ module.exports = {
    destroy(req, res, next){
         flairQueries.deleteFlair(req.params.id, (err, deletedRecordsCount) => {
           if(err){
-            res.redirect(500, `/posts/${req.params.id}/flairs/${req.params.id}`)
+            res.redirect(500, `/posts/${req.params.postId}/flairs/${req.params.id}`)
           } else {
-            res.redirect(303, `/topics/${req.params.id}/posts/${req.params.postId}`)
+            res.redirect(303, `/posts/${req.params.postId}`)
           }
         });
       },
@@ -54,7 +54,7 @@ module.exports = {
    },
 
    update(req, res, next){
-        flairQueries.updateFlair(req.params.id, {name: req.body.name, color:req.body.color}, (err, flair) => {
+        flairQueries.updateFlair(req.params.id, req.body, (err, flair) => {
           if(err || flair == null){
             res.redirect(404, `/posts/${req.params.postId}/flairs/${req.params.id}/edit`);
           } else {

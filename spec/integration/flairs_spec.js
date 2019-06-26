@@ -7,7 +7,7 @@ const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
 const Flair = require("../../src/db/models").Flair;
 
-describe("routes : posts", () => {
+describe("routes : flairs", () => {
 
   beforeEach((done) => {
     this.topic;

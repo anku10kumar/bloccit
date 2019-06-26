@@ -39,7 +39,7 @@ module.exports = {
 
    updateFlair(id, updatedFlair, callback){
      return Flair.findById(id)
-     .then((flair) => {
+     .then(flair => {
        if(!flair){
          return callback("Flair not found");
        }
@@ -50,7 +50,7 @@ module.exports = {
        .then(() => {
          callback(null, flair);
        })
-       .catch((err) => {
+       .catch(err => {
          callback(err);
        });
      });
